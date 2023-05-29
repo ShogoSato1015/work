@@ -1,78 +1,15 @@
-<!DOCTYPE html>
-<html lang="ja">
+<input type="file" accept='image/*' multiple="multiple" onchange="preview(this);">
 
-<head>
-    <meta charset="UTF-8">
-    <title>課題</title>
-</head>
+<div id="preview"></div>
 
-<body>
-    <label for="">1~10の数値を入力してください(半角数字のみ)</label><br>
-    <input type="text" id="number">
-    <input type="text" id="number">
-    <input type="text" id="number">
-    <input type="text" id="number">
-    <input type="text" id="number"><br>
-
-    <input type="button" id="start" value="check start" onclick="check()">
-
-    <div id="result">
-
-    </div>
-
-
-    <script>
-        function check() {
-            let resultViw = document.getElementById('result');
-            while (resultViw.firstChild) {
-                resultViw.removeChild(resultViw.firstChild);
-            }
-
-            let result = document.createElement('p');
-            result.textContent = `検証結果`;
-            document.getElementById('result').appendChild(result);
-
-            let numberInput = document.querySelectorAll('#number');
-            
-            for (let i = 0; i < numberInput.length; i++) {
-
-                if (numberInput[i].value === "") {
-                    alert('未入力があります');
-                    let resultNum = document.createElement('p');
-                    resultNum.textContent = `入力してください`
-                    document.getElementById('result').appendChild(resultNum);
-
-                }
-                else if (!(/^[0-9]+$/.test(numberInput[i].value))) {
-                    alert(`${numberInput[i].value}は数字ではありません`);
-                    let resultNum = document.createElement('p');
-                    resultNum.textContent = `半角数字のみ入力可能`
-                    document.getElementById('result').appendChild(resultNum);
-                }
-                else if (numberInput[i].value > 10 || numberInput[i].value < 1) {
-                    alert(`${numberInput[i].value}は対象外です`);
-                    let resultNum = document.createElement('p');
-                    resultNum.textContent = `${numberInput[i].value}は対象外`
-                    document.getElementById('result').appendChild(resultNum);
-
-                }
-                else if ((numberInput[i].value % 2) === 0) {
-                    alert(`${numberInput[i].value}は偶数です`);
-                    let resultNum = document.createElement('p');
-                    resultNum.textContent = `${numberInput[i].value}は偶数`
-                    document.getElementById('result').appendChild(resultNum);
-                }
-                else if ((numberInput[i].value % 2) !== 0) {
-                    alert(`${numberInput[i].value}は奇数です`);
-                    let resultNum = document.createElement('p');
-                    resultNum.textContent = `${numberInput[i].value}は奇数`
-                    document.getElementById('result').appendChild(resultNum);
-                }
-            }
-        }
-    </script>
-
-
-</body>
-
-</html>
+<script>
+function preview(obj){
+    for (i = 0; i < obj.files.length; i++) {
+        var fileReader = new FileReader();
+        fileReader.onload = (function (e) {
+            document.getElementById('preview').innerHTML += '<img src="' + e.target.result + '">';
+        });
+        fileReader.readAsDataURL(obj.files[i]);
+    }
+}
+</script>
